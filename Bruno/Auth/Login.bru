@@ -1,0 +1,75 @@
+meta {
+  name: Login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/v1/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "therapist@example.com",
+    "password": "SecurePass123"
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    const data = res.body;
+    bru.setEnvVar("access_token", data.access_token);
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Therapist Login
+  
+  Authenticate a therapist and receive an access token.
+  
+  ## Request Body
+  
+  - `email` (string): Registered email address
+  - `password` (string): Account password
+  
+  ## Success Response (200)
+  
+  ```json
+  {
+    "access_token": "eyJhbGciOiJIUzI1NiIs...",
+    "token_type": "bearer",
+    "therapist": {
+      "id": "uuid",
+      "email": "therapist@example.com",
+      "full_name": "Dr. Jane Smith",
+      "professional_license": "PSY-123456"
+    }
+  }
+  ```
+  
+  ## Error Responses
+  
+  - **401 Unauthorized**: Invalid email or password
+  - **422 Unprocessable Entity**: Invalid email format
+  
+  ## Token Management
+  
+  - **Token expires in**: 60 minutes
+  - **Automatic capture**: The access token is automatically saved to the environment variable `access_token`
+  - **Usage**: All protected endpoints will automatically use this token
+  - **Refresh**: Re-run this request when your token expires
+  
+  ## Notes
+  
+  This is the primary authentication endpoint. After successful login:
+  1. Token is automatically captured and stored
+  2. Use the token in `Authorization: Bearer {token}` header for protected endpoints
+  3. Token contains the therapist ID in the `sub` claim
+}

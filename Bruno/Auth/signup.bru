@@ -1,0 +1,66 @@
+meta {
+  name: signup
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/api/v1/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "therapist@example.com",
+    "full_name": "Dr. Jane Smith",
+    "professional_license": "PSY-123456",
+    "password": "SecurePass123",
+    "confirm_password": "SecurePass123"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Therapist Sign Up
+  
+  Create a new therapist account.
+  
+  ## Request Body
+  
+  All fields are required:
+  
+  - `email` (string): Valid email address, must be unique
+  - `full_name` (string): Therapist's full name
+  - `professional_license` (string): Professional license number
+  - `password` (string): 
+    - Minimum 8 characters
+    - Maximum 72 bytes (may be fewer characters with special characters)
+  - `confirm_password` (string): Must match password
+  
+  ## Success Response (201)
+  
+  ```json
+  {
+    "id": "uuid",
+    "email": "therapist@example.com",
+    "full_name": "Dr. Jane Smith",
+    "professional_license": "PSY-123456"
+  }
+  ```
+  
+  ## Error Responses
+  
+  - **400 Bad Request**: Email already registered or passwords don't match
+  - **422 Unprocessable Entity**: Validation errors (invalid email, password too short/long)
+  
+  ## Notes
+  
+  - This endpoint does NOT return an access token
+  - After signup, use the Login endpoint to get your token
+  - Password is securely hashed using bcrypt before storage
+}

@@ -1,0 +1,61 @@
+meta {
+  name: Delete Account
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{host}}/api/v1/me
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+docs {
+  # Delete Therapist Account
+  
+  Permanently delete the authenticated therapist's account.
+  
+  ## ⚠️ WARNING
+  
+  **This action is IRREVERSIBLE!**
+  
+  Deleting your account will:
+  - Permanently remove your therapist profile
+  - Remove all associated data (patients, sessions, etc.)
+  - Invalidate your access token
+  - Cannot be undone
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Success Response (204)
+  
+  No content returned. HTTP status 204 indicates successful deletion.
+  
+  ## Error Responses
+  
+  - **401 Unauthorized**: Invalid or missing token
+  - **404 Not Found**: Therapist account not found
+  
+  ## After Deletion
+  
+  - Your access token becomes invalid immediately
+  - You'll need to sign up again to create a new account
+  - All your data is permanently removed from the system
+  
+  ## Best Practices
+  
+  - Export any important data before deletion
+  - Ensure patients have alternative arrangements
+  - Consider account deactivation alternatives if available
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

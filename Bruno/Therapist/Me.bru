@@ -1,0 +1,53 @@
+meta {
+  name: Get Current Therapist
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/v1/me
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+docs {
+  # Get Current Therapist Profile
+  
+  Retrieve the authenticated therapist's profile information.
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Success Response (200)
+  
+  ```json
+  {
+    "id": "uuid",
+    "email": "therapist@example.com",
+    "full_name": "Dr. Jane Smith",
+    "professional_license": "PSY-123456"
+  }
+  ```
+  
+  ## Error Responses
+  
+  - **401 Unauthorized**: Invalid, expired, or missing token
+  - **404 Not Found**: Therapist account not found (shouldn't happen with valid token)
+  
+  ## Use Cases
+  
+  - Verify authentication status
+  - Display user profile in UI
+  - Check current user information
+  - Validate token before making other requests
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

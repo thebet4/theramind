@@ -1,0 +1,75 @@
+meta {
+  name: list-paginated
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/v1/patients?page=1&page_size=10
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  page_size: 10
+  ~identifier: PAT
+  ~consent_given: true
+  ~created_after: 2024-01-01T00:00:00
+  ~created_before: 2025-12-31T23:59:59
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # List Patients with Pagination and Filters
+  
+  ## Query Parameters
+  
+  ### Pagination (required)
+  - `page`: Page number (default: 1, min: 1)
+  - `page_size`: Items per page (default: 10, min: 1, max: 100)
+  
+  ### Filters (all optional)
+  - `identifier`: Search by patient identifier (partial match, case-insensitive)
+  - `consent_given`: Filter by consent status (true/false)
+  - `created_after`: Filter patients created after this date (ISO format)
+  - `created_before`: Filter patients created before this date (ISO format)
+  
+  ## Response Format
+  
+  ```json
+  {
+    "total": 45,
+    "page": 1,
+    "page_size": 10,
+    "total_pages": 5,
+    "patients": [
+      {
+        "id": "uuid",
+        "identifier": "PATIENT-001",
+        "date_of_birth": "1990-05-15T00:00:00",
+        "consent_given": true,
+        "created_at": "2024-11-13T10:30:00"
+      }
+    ]
+  }
+  ```
+  
+  ## Examples
+  
+  1. **Basic pagination**: `?page=1&page_size=20`
+  2. **Search by identifier**: `?page=1&page_size=10&identifier=PAT-001`
+  3. **Filter by consent**: `?page=1&page_size=10&consent_given=true`
+  4. **Date range**: `?page=1&page_size=10&created_after=2024-01-01T00:00:00&created_before=2024-12-31T23:59:59`
+  5. **Combined filters**: `?page=1&page_size=10&identifier=PAT&consent_given=true`
+  
+  Note: Parameters with `~` prefix are commented out. Remove `~` to activate them.
+}

@@ -1,11 +1,9 @@
 from fastapi import FastAPI
 
+from app.api.api_routes import router as api_routes
+
+from app.models import Therapist, Patient, Session, AuditLog, ProcessingError
+
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello, FastAPI!"}
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "query": q}
+app.include_router(api_routes)
