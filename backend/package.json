@@ -1,0 +1,14 @@
+{
+    "name": "theramind",
+    "version": "1.0.0",
+    "description": "TheraMind is a platform for managing therapy sessions and patients.",
+    "main": "index.js",
+    "scripts": {
+        "start": "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+    },
+    "author": "TheraMind",
+    "license": "MIT",
+    "dependencies": {
+        "fastapi": "^0.105.1"
+    }
+}
