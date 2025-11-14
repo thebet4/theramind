@@ -1,3 +1,4 @@
+import uuid
 from fastapi import APIRouter, Body, Depends, Query
 from sqlalchemy.orm import Session
 from typing import Optional
@@ -5,7 +6,12 @@ import datetime
 from app.core.dependencies import get_current_therapist
 from app.core.database import get_db
 from app.schemas.therapist import TherapistResponse
-from app.schemas.patient import PatientCreate, PaginatedPatientResponse, PatientFilter
+from app.schemas.patient import (
+    PatientCreate,
+    PaginatedPatientResponse,
+    PatientFilter,
+    PatientUpdate,
+)
 from app.services.patient_service import PatientService
 
 router = APIRouter(prefix="/patients", tags=["Patients"])
@@ -48,3 +54,22 @@ def create_patient(
     patient: PatientCreate = Body(...),
 ):
     return PatientService.create_patient(current_therapist.id, patient, db)
+
+
+@router.put("/{patient_id}")
+def update_patient(
+    patient_id: uuid.UUID,
+    data: PatientUpdate,
+    db: Session = Depends(get_db),
+    current_therapist: TherapistResponse = Depends(get_current_therapist),
+):
+    return PatientService.update_patient(current_therapist.id, patient_id, data, db)
+
+
+@router.delete("/{patient_id}")
+def delete_patient(
+    patient_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_therapist: TherapistResponse = Depends(get_current_therapist),
+):
+    return PatientService.delete_patient(current_therapist.id, patient_id, db)

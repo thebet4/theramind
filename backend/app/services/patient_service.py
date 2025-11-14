@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from typing import List, Optional
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
@@ -9,6 +10,7 @@ from app.schemas.patient import (
     PatientResponse,
     PatientFilter,
     PaginatedPatientResponse,
+    PatientUpdate,
 )
 from app.models.patient import Patient
 
@@ -83,3 +85,40 @@ class PatientService:
         db.commit()
         db.refresh(new_patient)
         return PatientResponse.model_validate(new_patient)
+
+    @staticmethod
+    def update_patient(
+        therapist_id: uuid.UUID, patient_id: uuid.UUID, data: PatientUpdate, db: Session
+    ) -> PatientResponse:
+        existing = (
+            db.query(Patient)
+            .filter_by(id=patient_id, therapist_id=therapist_id)
+            .first()
+        )
+        if not existing:
+            raise HTTPException(status_code=404, detail="Patient not found")
+        if data.identifier:
+            existing.identifier = data.identifier
+        if data.date_of_birth:
+            existing.date_of_birth = data.date_of_birth
+        db.commit()
+        db.refresh(existing)
+        return PatientResponse.model_validate(existing)
+
+    @staticmethod
+    def delete_patient(
+        therapist_id: uuid.UUID, patient_id: uuid.UUID, db: Session
+    ) -> dict:
+        existing = (
+            db.query(Patient)
+            .filter_by(id=patient_id, therapist_id=therapist_id, is_deleted=False)
+            .first()
+        )
+        if not existing:
+            raise HTTPException(status_code=404, detail="Patient not found")
+
+        existing.is_deleted = True
+        existing.deleted_at = datetime.now(timezone.utc)
+        db.commit()
+        db.refresh(existing)
+        return {"message": "Patient deleted successfully"}

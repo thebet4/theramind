@@ -42,3 +42,10 @@ class PaginatedPatientResponse(BaseModel):
     page_size: int
     total_pages: int
     patients: List[PatientResponse]
+
+
+class PatientUpdate(BaseModel):
+    identifier: Optional[str] = Field(None, description="Update patient identifier")
+    date_of_birth: Optional[datetime.datetime] = Field(
+        None, description="Update patient date of birth"
+    )

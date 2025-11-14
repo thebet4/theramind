@@ -1,0 +1,64 @@
+meta {
+  name: Delete Patient
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{host}}/api/v1/patients/dca32c88-0c0a-41a7-b094-56fd7fb9af8c
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Create Patient
+  
+  Create a new patient associated with the authenticated therapist.
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Request Body
+  
+  - `identifier` (string, required): Unique patient identifier within your practice
+    - Must be unique per therapist
+    - Examples: "PATIENT-001", "JOHN-DOE-2024", "ID-12345"
+  - `date_of_birth` (datetime, optional): Patient's date of birth
+    - Format: ISO 8601 datetime (e.g., "1990-05-15T00:00:00")
+    - Can also accept date-only format (e.g., "1990-05-15")
+  
+  ## Success Response (200)
+  
+  ```json
+  {
+    "id": "uuid",
+    "identifier": "PATIENT-001",
+    "date_of_birth": "1990-05-15T00:00:00",
+    "consent_given": false,
+    "created_at": "2024-11-13T10:30:00"
+  }
+  ```
+  
+  ## Error Responses
+  
+  - **400 Bad Request**: Patient with this identifier already exists for your account
+  - **401 Unauthorized**: Invalid or missing token
+  - **422 Unprocessable Entity**: Validation errors
+  
+  ## Notes
+  
+  - Each therapist has their own namespace for patient identifiers
+  - The same identifier can exist for different therapists
+  - Patient data is private and only accessible by the creating therapist
+  - Patients are soft-deleted (not permanently removed)
+}
