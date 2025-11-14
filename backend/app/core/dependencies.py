@@ -10,7 +10,6 @@ from app.schemas.therapist import TherapistResponse
 def get_current_therapist(
     authorization: str = Header(...), db: Session = Depends(get_db)
 ) -> TherapistResponse:
-    print(authorization)
     if not authorization:
         raise HTTPException(status_code=401, detail="Authorization header missing")
 

@@ -1,0 +1,27 @@
+meta {
+  name: Refresh
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/api/v1/refresh-token
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+script:post-response {
+  if (res.status === 200) {
+    const data = res.body;
+    bru.setEnvVar("access_token", data.access_token);
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

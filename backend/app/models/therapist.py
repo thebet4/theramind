@@ -28,6 +28,11 @@ class Therapist(Base):
     professional_license: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     role: Mapped[str] = mapped_column(String, default="therapist", nullable=False)
 
+    # Password reset
+    password_reset_token: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    password_reset_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     # Audit
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
