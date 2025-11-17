@@ -1,0 +1,92 @@
+{
+  "landing": {
+    "header": {
+      "features": "Recursos",
+      "about": "Sobre",
+      "howItWorks": "Como Funciona",
+      "getStarted": "Começar"
+    },
+    "hero": {
+      "title": "Empoderando Terapeutas com",
+      "titleHighlight": "Gerenciamento Inteligente de Sessões",
+      "subtitle": "Otimize sua prática com transcrição com IA, documentação automatizada e gerenciamento seguro de pacientes—tudo em uma plataforma.",
+      "cta": "Teste Grátis",
+      "badges": {
+        "confidential": "100% Confidencial",
+        "available": "Disponível 24/7",
+        "evidenceBased": "Baseado em Evidências"
+      },
+      "recorder": {
+        "status": "Gravação em Andamento",
+        "title": "Gravação de Sessão",
+        "subtitle": "Sua sessão está sendo gravada com segurança",
+        "duration": "Duração da Gravação",
+        "encrypted": "Criptografia ponta a ponta",
+        "quality": "Áudio em Alta Definição"
+      }
+    },
+    "features": {
+      "feature1": {
+        "title": "Disponibilidade 24/7",
+        "description": "Acesse suporte sempre que precisar. Sem agendamentos, sem salas de espera, apenas ajuda imediata quando mais importa."
+      },
+      "feature2": {
+        "title": "Privacidade Completa",
+        "description": "Suas conversas são criptografadas e completamente confidenciais. Compartilhe livremente sem julgamento ou medo."
+      },
+      "feature3": {
+        "title": "Baseado em Evidências",
+        "description": "Alimentado por terapia cognitivo-comportamental (TCC) e outras técnicas terapêuticas comprovadas apoiadas por pesquisas."
+      },
+      "feature4": {
+        "title": "Acompanhamento de Progresso",
+        "description": "Monitore sua jornada de saúde mental com insights e análises que ajudam você a entender seu progresso."
+      },
+      "feature5": {
+        "title": "Cuidado Personalizado",
+        "description": "A IA se adapta às suas necessidades únicas, aprendendo com cada conversa para fornecer suporte cada vez mais personalizado."
+      },
+      "feature6": {
+        "title": "Suporte em Crises",
+        "description": "Recursos imediatos e orientação durante momentos difíceis, com conexões diretas aos serviços de emergência quando necessário."
+      }
+    },
+    "benefits": {
+      "sectionTitle": "Três Passos Simples para Transformar sua Prática",
+      "step1": {
+        "title": "Grave sua Sessão",
+        "description": "Simplesmente comece a gravar durante sua sessão de terapia. Nossa plataforma segura captura tudo."
+      },
+      "step2": {
+        "title": "IA Processa e Transcreve",
+        "description": "IA avançada transcreve e analisa a sessão, identificando insights e temas chave."
+      },
+      "step3": {
+        "title": "Revisar e Documentar",
+        "description": "Acesse notas organizadas, resumos e documentação pronta para seus registros."
+      }
+    },
+    "cta": {
+      "title": "Pronto para Transformar sua Prática?",
+      "subtitle": "Junte-se a centenas de terapeutas que estão economizando tempo e melhorando o atendimento ao paciente com TheraMind.",
+      "button": "Comece seu Teste Grátis"
+    },
+    "footer": {
+      "tagline": "Empoderando terapeutas com tecnologia inteligente.",
+      "product": "Produto",
+      "features": "Recursos",
+      "pricing": "Preços",
+      "faq": "Perguntas Frequentes",
+      "company": "Empresa",
+      "about": "Sobre Nós",
+      "blog": "Blog",
+      "careers": "Carreiras",
+      "contact": "Contato",
+      "legal": "Legal",
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Serviço",
+      "hipaa": "Conformidade HIPAA",
+      "rights": "© 2025 TheraMind. Todos os direitos reservados."
+    }
+  }
+}

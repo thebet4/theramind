@@ -1,0 +1,92 @@
+{
+  "landing": {
+    "header": {
+      "features": "Features",
+      "about": "About",
+      "howItWorks": "How It Works",
+      "getStarted": "Get Started"
+    },
+    "hero": {
+      "title": "Empowering Therapists with",
+      "titleHighlight": "Intelligent Session Management",
+      "subtitle": "Streamline your practice with AI-powered transcription, automated documentation, and secure patient management—all in one platform.",
+      "cta": "Start Free Trial",
+      "badges": {
+        "confidential": "100% Confidential",
+        "available": "24/7 Available",
+        "evidenceBased": "Evidence-Based"
+      },
+      "recorder": {
+        "status": "Recording in Progress",
+        "title": "Session Recording",
+        "subtitle": "Your session is being securely recorded",
+        "duration": "Recording Duration",
+        "encrypted": "End-to-end encrypted",
+        "quality": "HD Audio Quality"
+      }
+    },
+    "features": {
+      "feature1": {
+        "title": "24/7 Availability",
+        "description": "Access support whenever you need it. No appointments, no waiting rooms, just immediate help when it matters most."
+      },
+      "feature2": {
+        "title": "Complete Privacy",
+        "description": "Your conversations are encrypted and completely confidential. Share freely without judgment or fear."
+      },
+      "feature3": {
+        "title": "Evidence-Based",
+        "description": "Powered by cognitive behavioral therapy (CBT) and other proven therapeutic techniques backed by research."
+      },
+      "feature4": {
+        "title": "Progress Tracking",
+        "description": "Monitor your mental health journey with insights and analytics that help you understand your progress."
+      },
+      "feature5": {
+        "title": "Personalized Care",
+        "description": "AI adapts to your unique needs, learning from each conversation to provide increasingly personalized support."
+      },
+      "feature6": {
+        "title": "Crisis Support",
+        "description": "Immediate resources and guidance during difficult moments, with direct connections to emergency services when needed."
+      }
+    },
+    "benefits": {
+      "sectionTitle": "Three Simple Steps to Transform Your Practice",
+      "step1": {
+        "title": "Record Your Session",
+        "description": "Simply start recording during your therapy session. Our secure platform captures everything."
+      },
+      "step2": {
+        "title": "AI Processes & Transcribes",
+        "description": "Advanced AI transcribes and analyzes the session, identifying key insights and themes."
+      },
+      "step3": {
+        "title": "Review & Document",
+        "description": "Access organized notes, summaries, and documentation ready for your records."
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Practice?",
+      "subtitle": "Join hundreds of therapists who are saving time and improving patient care with TheraMind.",
+      "button": "Start Your Trial"
+    },
+    "footer": {
+      "tagline": "Empowering therapists with intelligent technology.",
+      "product": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "company": "Company",
+      "about": "About Us",
+      "blog": "Blog",
+      "careers": "Careers",
+      "contact": "Contact",
+      "legal": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "hipaa": "HIPAA Compliance",
+      "rights": "© 2025 TheraMind. All rights reserved."
+    }
+  }
+}
