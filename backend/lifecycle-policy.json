@@ -1,0 +1,18 @@
+{
+    "Rules": [
+      {
+        "ID": "DeleteProcessedAudio",
+        "Status": "Enabled",
+        "Filter": {
+          "Prefix": "audio-uploads/"
+        },
+        "Expiration": {
+          "Days": 1
+        },
+        "AbortIncompleteMultipartUpload": {
+          "DaysAfterInitiation": 1
+        }
+      }
+    ]
+}
+  

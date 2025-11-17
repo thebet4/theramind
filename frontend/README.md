@@ -1,146 +1,52 @@
-# TheraMind - Frontend
+# TheraMind Frontend
 
-Next.js 15 frontend for TheraMind platform.
+Next.js 15 frontend with TailwindCSS and shadcn/ui.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install dependencies
 npm install
-
-# Setup environment variables
-cp ../.env.example .env.local
-# Edit .env.local with your API URLs
-
-# Start development server
+cp .env.example .env.local
+# Edit .env.local
 npm run dev
-
-# Open browser
-open http://localhost:3000
 ```
 
-## 📁 Project Structure
+Open http://localhost:3000
+
+## Tech Stack
+
+- Next.js 15 (App Router)
+- TailwindCSS + shadcn/ui
+- React Hook Form + Zod
+- Supabase Auth
+- Axios
+
+## Structure
 
 ```
 frontend/
-├── app/                     # Next.js 15 App Router
-│   ├── (auth)/              # Auth routes
-│   │   ├── login/
-│   │   └── register/
-│   │
-│   ├── (dashboard)/         # Protected routes
-│   │   ├── layout.tsx       # Dashboard layout
-│   │   ├── page.tsx         # Dashboard home
-│   │   ├── patients/        # Patient management
-│   │   ├── sessions/        # Session history
-│   │   └── settings/        # User settings
-│   │
-│   ├── api/                 # API routes (if needed)
-│   ├── layout.tsx           # Root layout
-│   └── page.tsx             # Landing page
-│
-├── components/              # React components
-│   ├── ui/                  # shadcn/ui components
-│   ├── auth/
-│   │   ├── LoginForm.tsx
-│   │   └── RegisterForm.tsx
-│   ├── dashboard/
-│   │   ├── Sidebar.tsx
-│   │   └── Header.tsx
-│   ├── sessions/
-│   │   ├── SessionCard.tsx
-│   │   ├── SessionUpload.tsx
-│   │   └── SummaryView.tsx
-│   └── patients/
-│       ├── PatientList.tsx
-│       └── PatientForm.tsx
-│
-├── lib/                     # Utilities
-│   ├── supabase.ts          # Supabase client
-│   ├── api.ts               # API client
-│   ├── utils.ts             # Helpers
-│   └── validations.ts       # Form validations
-│
-├── hooks/                   # Custom hooks
-│   ├── useAuth.ts
-│   ├── useSession.ts
-│   └── usePatients.ts
-│
-├── types/                   # TypeScript types
-│   ├── session.ts
-│   ├── patient.ts
-│   └── user.ts
-│
-├── styles/                  # Global styles
-│   └── globals.css
-│
-├── public/                  # Static assets
-│   ├── images/
-│   └── icons/
-│
-├── package.json
-├── tsconfig.json
-├── tailwind.config.ts
-├── next.config.js
-└── .env.example
+├── app/
+│   ├── (auth)/         # Login, register
+│   └── (dashboard)/    # Protected routes
+├── components/         # UI components
+├── lib/               # Utilities
+├── hooks/             # Custom hooks
+└── types/             # TypeScript types
 ```
 
-## 🎨 Tech Stack
-
-- **Framework:** Next.js 15 (App Router)
-- **Styling:** TailwindCSS
-- **Components:** shadcn/ui
-- **State:** React hooks + Context
-- **Forms:** React Hook Form + Zod
-- **Auth:** Supabase Auth
-- **HTTP:** Axios
-- **Real-time:** Supabase Realtime
-
-## 🧪 Running Tests
+## Scripts
 
 ```bash
-# Unit tests
-npm run test
-
-# E2E tests with Playwright
-npm run test:e2e
-
-# Component tests
-npm run test:components
+npm run dev        # Development
+npm run build      # Production build
+npm run lint       # ESLint
+npm run test       # Tests
 ```
 
-## 📦 Building for Production
+## Deployment
 
 ```bash
-# Build
 npm run build
-
-# Start production server
-npm start
-
-# Deploy to Vercel
 vercel deploy --prod
-```
-
-## 🎯 Key Features
-
-- ✅ Server-side rendering (SSR)
-- ✅ Static generation where possible
-- ✅ Optimistic UI updates
-- ✅ Real-time notifications
-- ✅ File upload with progress
-- ✅ Responsive design (mobile-first)
-- ✅ Dark mode support
-- ✅ Accessibility (WCAG 2.1)
-
-## 🔧 Scripts
-
-```bash
-npm run dev          # Start dev server
-npm run build        # Build for production
-npm run start        # Start prod server
-npm run lint         # Run ESLint
-npm run format       # Format with Prettier
-npm run type-check   # TypeScript check
 ```
 

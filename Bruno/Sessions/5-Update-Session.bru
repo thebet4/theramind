@@ -1,0 +1,207 @@
+meta {
+  name: 5. Update Session
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{host}}/api/v1/sessions/{{session_id}}
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+body:json {
+  {
+    "session_duration_minutes": 48,
+    "summary": {
+      "main_points": [
+        "Patient discussed anxiety about work",
+        "Explored coping mechanisms",
+        "Therapist provided CBT techniques"
+      ],
+      "emotions_observed": [
+        {
+          "emotion": "anxiety",
+          "intensity": "high",
+          "context": "Work-related stress"
+        }
+      ],
+      "behavioral_patterns": [
+        "Avoidance of difficult conversations"
+      ],
+      "action_items": [
+        {
+          "task": "Practice breathing exercises",
+          "frequency": "2x/day",
+          "deadline": "Next session"
+        }
+      ],
+      "risk_assessment": {
+        "level": "low",
+        "notes": "No immediate concerns"
+      },
+      "next_session_focus": [
+        "Review homework",
+        "Continue CBT work"
+      ],
+      "therapist_notes": "Patient is making good progress. Added notes about family situation."
+    }
+  }
+}
+
+docs {
+  # Update Session
+  
+  Update a therapy session's details.
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Path Parameters
+  
+  - `session_id` (uuid, required): ID of the session to update
+    - Must be a session that belongs to the authenticated therapist
+  
+  ## Request Body (all fields optional)
+  
+  - `processing_status` (string): Manually change status
+    - Values: "pending", "processing", "completed", "failed", "cancelled"
+    - Use case: Cancel a stuck job, mark as failed manually
+  
+  - `session_duration_minutes` (integer): Correct the duration
+    - Use case: AI calculated wrong duration, manual correction needed
+  
+  - `summary` (object): Edit or enhance the AI-generated summary
+    - Can update any part of the summary structure
+    - Use case: Correct AI mistakes, add therapist notes, update assessments
+    - **Note**: Updating summary increments `version` for audit trail
+  
+  ## Success Response (200)
+  
+  Returns the updated session object (same format as GET /sessions/{id})
+  
+  ```json
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "therapist_id": "660e8400-e29b-41d4-a716-446655440000",
+    "patient_id": "770e8400-e29b-41d4-a716-446655440000",
+    "session_date": "2024-11-14T10:00:00Z",
+    "session_duration_minutes": 48,
+    "processing_status": "completed",
+    "summary": {
+      // Updated summary
+    },
+    "updated_at": "2024-11-14T15:30:00Z",
+    "version": 2
+  }
+  ```
+  
+  ## Update Scenarios
+  
+  ### 1. Correct Session Duration
+  ```json
+  {
+    "session_duration_minutes": 52
+  }
+  ```
+  
+  ### 2. Cancel Stuck Processing
+  ```json
+  {
+    "processing_status": "cancelled"
+  }
+  ```
+  
+  ### 3. Add Therapist Notes to Summary
+  ```json
+  {
+    "summary": {
+      "main_points": [...],
+      "emotions_observed": [...],
+      "therapist_notes": "UPDATED: Patient mentioned family conflict not captured in original summary. Will explore in next session."
+    }
+  }
+  ```
+  
+  ### 4. Update Risk Assessment
+  ```json
+  {
+    "summary": {
+      "risk_assessment": {
+        "level": "moderate",
+        "notes": "Patient expressed mild suicidal ideation. Safety plan reviewed. Follow-up scheduled in 3 days."
+      }
+    }
+  }
+  ```
+  
+  ### 5. Edit Action Items
+  ```json
+  {
+    "summary": {
+      "action_items": [
+        {
+          "task": "Practice mindfulness meditation",
+          "frequency": "Daily for 10 minutes",
+          "deadline": "Next session"
+        },
+        {
+          "task": "Journal about triggers",
+          "frequency": "As needed",
+          "deadline": "Next session"
+        }
+      ]
+    }
+  }
+  ```
+  
+  ## GDPR Compliance
+  
+  Therapists can edit summaries to:
+  - Remove any remaining sensitive information (PII)
+  - Correct AI inaccuracies
+  - Add important clinical observations
+  - Update risk assessments
+  
+  This ensures **data accuracy** (GDPR Article 16 - Right to Rectification).
+  
+  ## Versioning
+  
+  - Each summary edit increments the `version` field
+  - Original version: 1
+  - After first edit: 2, and so on
+  - Provides audit trail for compliance
+  - Previous versions are not stored (only current version)
+  
+  ## Error Responses
+  
+  - **401 Unauthorized**: Invalid or missing token
+  - **404 Not Found**: Session not found or doesn't belong to you
+  - **422 Unprocessable Entity**: Validation errors in request body
+  
+  ## Best Practices
+  
+  1. **Get before Update**: Always fetch current session first
+  2. **Partial Updates**: Only send fields you want to change
+  3. **Summary Updates**: Send complete summary object (not partial)
+  4. **Status Changes**: Only change status if necessary (worker manages this)
+  5. **Timestamps**: Don't update timestamps manually (auto-managed)
+  
+  ## Notes
+  
+  - You cannot update `session_date`, `patient_id`, or `therapist_id` (immutable)
+  - Updates are immediately reflected
+  - No undo functionality (consider keeping client-side backup)
+  - Version number helps track modifications for compliance audits
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

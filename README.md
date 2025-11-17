@@ -72,6 +72,32 @@
 └─────────────┘                                  └─────────────┘
 ```
 
+### 📁 Estrutura Unificada
+
+O worker Lambda agora está **integrado ao backend** para compartilhar configuração e serviços:
+
+```
+backend/
+├── app/
+│   ├── core/
+│   │   ├── config.py           # Configuração unificada
+│   │   ├── auth.py
+│   │   └── database.py
+│   ├── services/
+│   │   ├── processing/         # Serviços do worker
+│   │   │   ├── transcription.py
+│   │   │   ├── summarizer.py
+│   │   │   ├── anonymizer.py
+│   │   │   ├── aws_clients.py
+│   │   │   └── processor.py
+│   │   └── ...
+│   └── workers/
+│       └── lambda_handler.py   # Entry point Lambda
+├── build_lambda.sh
+├── deploy_lambda.sh
+└── requirements.txt            # Dependências unificadas
+```
+
 ### Fluxo de Processamento
 
 1. **Upload** → Frontend envia áudio direto para S3 (presigned URL)
@@ -159,17 +185,19 @@ npm run dev
 ### 4️⃣ Configurar Worker (Lambda)
 
 ```bash
-cd worker
-pip install -r requirements.txt
+cd backend
 
-# Empacotar para deploy
-./build.sh
+# Build e deploy automático
+./build_lambda.sh
+./deploy_lambda.sh
 
-# Deploy para AWS Lambda
+# Ou deploy manual
 aws lambda update-function-code \
   --function-name theramind-processor \
-  --zip-file fileb://function.zip
+  --zip-file fileb://lambda_function.zip
 ```
+
+📖 **Mais detalhes:** [backend/LAMBDA_DEPLOYMENT.md](backend/LAMBDA_DEPLOYMENT.md)
 
 ### 5️⃣ Acessar Aplicação
 

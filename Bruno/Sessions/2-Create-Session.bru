@@ -1,0 +1,148 @@
+meta {
+  name: 2. Create Session
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/v1/sessions?s3_key=Therapy Recordings - _Anna_, Session 1, Part 1 [X47ODjcasUI].mp3
+  body: json
+  auth: none
+}
+
+params:query {
+  s3_key: Therapy Recordings - _Anna_, Session 1, Part 1 [X47ODjcasUI].mp3
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+body:json {
+  {
+    "patient_id": "dca32c88-0c0a-41a7-b094-56fd7fb9af8c",
+    "session_date": "2024-11-14T10:00:00Z",
+    "audio_metadata": {
+      "format": "mp3",
+      "size_mb": 16.7,
+      "duration_estimate": "45min"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Create Session
+  
+  Create a new therapy session and enqueue for AI processing.
+  
+  After uploading the audio file to S3 using the presigned URL from step 1,
+  call this endpoint to create the session record and start processing.
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Query Parameters
+  
+  - `s3_key` (string, required): S3 key where audio file was uploaded
+    - This is the `s3_key` value from the "Generate Upload URL" response
+    - Example: "audio-uploads/abc-123-def-456.mp3"
+  
+  ## Request Body
+  
+  - `patient_id` (uuid, required): ID of the patient for this session
+    - Must match the patient_id used when generating upload URL
+    - Must be a patient that belongs to you
+  - `session_date` (datetime, required): Date and time of the therapy session
+    - Format: ISO 8601 datetime (e.g., "2024-11-14T10:00:00Z")
+    - Typically the actual session date, not the upload date
+  - `audio_metadata` (object, optional): Metadata about the uploaded audio file
+    - `format`: File format (e.g., "mp3", "wav", "m4a")
+    - `size_mb`: File size in megabytes
+    - `duration_estimate`: Estimated duration
+    - Any other custom metadata you want to track
+  
+  ## Success Response (201)
+  
+  ```json
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "therapist_id": "660e8400-e29b-41d4-a716-446655440000",
+    "patient_id": "770e8400-e29b-41d4-a716-446655440000",
+    "session_date": "2024-11-14T10:00:00Z",
+    "session_duration_minutes": null,
+    "processing_status": "pending",
+    "job_id": "12345678-1234-1234-1234-123456789012",
+    "s3_audio_key": "audio-uploads/abc-123.mp3",
+    "audio_metadata": {
+      "format": "mp3",
+      "size_mb": 10.5,
+      "duration_estimate": "45min"
+    },
+    "summary": null,
+    "created_at": "2024-11-14T10:05:00Z",
+    "processing_started_at": null,
+    "processing_completed_at": null,
+    "updated_at": "2024-11-14T10:05:00Z",
+    "version": 1
+  }
+  ```
+  
+  ## Processing Flow
+  
+  1. Creates session record in database (status: `pending`)
+  2. Enqueues job to AWS SQS for async processing
+  3. Worker Lambda will:
+     - Download audio from S3
+     - Transcribe audio with OpenAI Whisper
+     - Generate structured summary with GPT-4o-mini
+     - Anonymize PII (personally identifiable information)
+     - Update session with summary
+     - **Delete audio file from S3 permanently**
+  
+  ## Processing Status
+  
+  - `pending` - Waiting in queue
+  - `processing` - Currently being processed by worker
+  - `completed` - Successfully processed, summary available
+  - `failed` - Processing failed (check logs or retry)
+  - `cancelled` - Manually cancelled
+  
+  ## Processing Time
+  
+  - Typical: 3-5 minutes for a 50-minute session
+  - Depends on: audio length, API load, queue depth
+  
+  ## Monitoring Progress
+  
+  Poll the "Get Session" endpoint or use WebSocket for real-time updates.
+  
+  ```bash
+  # Poll every 30 seconds
+  while true; do
+    curl http://localhost:8000/api/v1/sessions/SESSION_ID \
+      -H "Authorization: Bearer TOKEN"
+    sleep 30
+  done
+  ```
+  
+  ## Error Responses
+  
+  - **400 Bad Request**: Audio file not found in storage (upload failed or expired)
+  - **401 Unauthorized**: Invalid or missing token
+  - **404 Not Found**: Patient not found or doesn't belong to you
+  - **422 Unprocessable Entity**: Validation errors
+  - **500 Internal Server Error**: Failed to enqueue processing job
+  
+  ## Notes
+  
+  - Audio files are automatically deleted after processing (GDPR compliance)
+  - Only the structured summary is permanently stored
+  - Maximum lifecycle of audio in S3: 24 hours (backup cleanup)
+  - Session records are soft-deleted, not permanently removed
+}

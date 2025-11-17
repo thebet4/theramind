@@ -1,0 +1,164 @@
+meta {
+  name: 4. Get Session
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/api/v1/sessions/{{session_id}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+docs {
+  # Get Session Details
+  
+  Get complete details of a specific therapy session.
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Path Parameters
+  
+  - `session_id` (uuid, required): ID of the session to retrieve
+    - Must be a session that belongs to the authenticated therapist
+  
+  ## Success Response (200)
+  
+  ```json
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "therapist_id": "660e8400-e29b-41d4-a716-446655440000",
+    "patient_id": "770e8400-e29b-41d4-a716-446655440000",
+    "session_date": "2024-11-14T10:00:00Z",
+    "session_duration_minutes": 45,
+    "processing_status": "completed",
+    "job_id": "12345678-1234-1234-1234-123456789012",
+    "s3_audio_key": null,
+    "audio_metadata": {
+      "format": "mp3",
+      "size_mb": 10.5,
+      "sample_rate": 44100
+    },
+    "summary": {
+      "main_points": [
+        "Patient discussed increased anxiety related to work",
+        "Explored coping strategies and breathing techniques",
+        "Discussed setting boundaries in professional environment"
+      ],
+      "emotions_observed": [
+        {
+          "emotion": "anxiety",
+          "intensity": "high",
+          "context": "When discussing work deadlines"
+        },
+        {
+          "emotion": "relief",
+          "intensity": "moderate",
+          "context": "After discussing coping techniques"
+        }
+      ],
+      "behavioral_patterns": [
+        "Tendency to avoid confrontations",
+        "Difficulty establishing boundaries"
+      ],
+      "action_items": [
+        {
+          "task": "Practice 4-7-8 breathing technique",
+          "frequency": "2x/day",
+          "deadline": "Next session"
+        },
+        {
+          "task": "Keep anxiety trigger journal",
+          "frequency": "When triggered",
+          "deadline": "Next session"
+        }
+      ],
+      "risk_assessment": {
+        "level": "low",
+        "notes": "No suicidal ideation or immediate risk"
+      },
+      "next_session_focus": [
+        "Review anxiety trigger journal",
+        "Deepen assertiveness techniques"
+      ],
+      "therapist_notes": "Patient showed openness to CBT interventions. Notable progress since last session.",
+      "ai_confidence_score": 0.92,
+      "tokens_used": {
+        "input": 5823,
+        "output": 421
+      }
+    },
+    "created_at": "2024-11-14T10:05:00Z",
+    "processing_started_at": "2024-11-14T10:05:30Z",
+    "processing_completed_at": "2024-11-14T10:09:45Z",
+    "updated_at": "2024-11-14T10:09:45Z",
+    "version": 1
+  }
+  ```
+  
+  ## Response Fields
+  
+  ### Session Metadata
+  - `id`: Unique session identifier
+  - `therapist_id`: ID of the therapist who created the session
+  - `patient_id`: ID of the patient
+  - `session_date`: Date/time when the therapy session occurred
+  - `session_duration_minutes`: Actual duration (populated after processing)
+  
+  ### Processing Information
+  - `processing_status`: Current status (pending/processing/completed/failed/cancelled)
+  - `job_id`: SQS message ID for tracking
+  - `s3_audio_key`: S3 key (null after deletion)
+  - `processing_started_at`: When worker started processing
+  - `processing_completed_at`: When processing finished
+  
+  ### AI-Generated Summary
+  - `summary`: Full structured summary (see example above)
+  - `summary.main_points`: Key discussion topics
+  - `summary.emotions_observed`: Emotional states and contexts
+  - `summary.behavioral_patterns`: Recurring behaviors noted
+  - `summary.action_items`: Homework/tasks for patient
+  - `summary.risk_assessment`: Mental health risk evaluation
+  - `summary.next_session_focus`: Topics for next session
+  - `summary.therapist_notes`: Editable notes section
+  - `summary.ai_confidence_score`: AI's confidence (0-1)
+  - `summary.tokens_used`: API token usage for billing
+  
+  ### Audit Fields
+  - `created_at`: When session record was created
+  - `updated_at`: Last modification time
+  - `version`: Increments with each summary edit
+  
+  ## Error Responses
+  
+  - **401 Unauthorized**: Invalid or missing token
+  - **404 Not Found**: Session not found or doesn't belong to you
+  
+  ## Privacy Notes
+  
+  - Audio files are **never stored permanently**
+  - `s3_audio_key` is null after processing completes
+  - Only the anonymized summary is retained
+  - No personally identifiable information (PII) in summaries
+  - All names replaced with "Patient" by AI
+  
+  ## Use Cases
+  
+  1. **Check processing status**: Poll this endpoint until status is "completed"
+  2. **Display session details**: Show complete summary to therapist
+  3. **Edit summary**: Get current data, modify, then use PATCH endpoint
+  4. **Export data**: Retrieve for PDF generation or backup
+  5. **Audit trail**: Check version and timestamps for compliance
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

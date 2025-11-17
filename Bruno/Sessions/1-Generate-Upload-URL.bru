@@ -1,0 +1,106 @@
+meta {
+  name: 1. Generate Upload URL
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/api/v1/sessions/upload-url
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+body:json {
+  {
+    "patient_id": "{{patient_id}}",
+    "file_name": "session-2024-11-14.mp3",
+    "file_size": 10485760,
+    "content_type": "audio/mpeg"
+  }
+}
+
+docs {
+  # Generate Upload URL
+  
+  Generate a presigned S3 URL for uploading audio files directly to S3.
+  
+  ## Flow
+  
+  1. Frontend calls this endpoint with file metadata
+  2. Backend generates presigned S3 URL (valid for 15 minutes)
+  3. Frontend uploads file directly to S3 using the presigned URL
+  4. Frontend calls POST /sessions with the S3 key to create session record
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Request Body
+  
+  - `patient_id` (uuid, required): ID of the patient for this session
+    - Must be a patient that belongs to the authenticated therapist
+  - `file_name` (string, required): Original file name with extension
+    - Examples: "session-2024-11-14.mp3", "therapy-session.wav"
+  - `file_size` (integer, required): File size in bytes
+    - Minimum: 1 byte
+    - Maximum: 104857600 bytes (100 MB)
+  - `content_type` (string, required): MIME type of the file
+    - Allowed: "audio/mpeg", "audio/wav", "audio/x-m4a", "audio/mp3"
+  
+  ## Success Response (200)
+  
+  ```json
+  {
+    "upload_url": "https://theramind-audio-uploads.s3.amazonaws.com/audio-uploads/abc-123.mp3?X-Amz-Algorithm=...",
+    "s3_key": "audio-uploads/abc-123-def-456.mp3",
+    "expires_in": 900
+  }
+  ```
+  
+  ## Error Responses
+  
+  - **400 Bad Request**: Invalid content type or file size exceeds limit
+  - **401 Unauthorized**: Invalid or missing token
+  - **404 Not Found**: Patient not found or doesn't belong to you
+  - **422 Unprocessable Entity**: Validation errors
+  - **500 Internal Server Error**: Error generating presigned URL
+  
+  ## Usage Notes
+  
+  ### Step 1: Generate URL (this request)
+  Save the `upload_url` and `s3_key` from response
+  
+  ### Step 2: Upload to S3 (separate request)
+  ```bash
+  curl -X PUT "UPLOAD_URL_FROM_STEP_1" \
+    -H "Content-Type: audio/mpeg" \
+    --data-binary @your-audio-file.mp3
+  ```
+  
+  ### Step 3: Create Session
+  Use the "2. Create Session" endpoint with the `s3_key` from Step 1
+  
+  ## File Requirements
+  
+  - Max size: 100MB
+  - Allowed formats: MP3, WAV, M4A
+  - Max duration: ~60 minutes
+  - URL expires in 15 minutes (upload must complete within this time)
+  
+  ## Security
+  
+  - URLs are time-limited (15 minutes)
+  - Only PUT requests allowed
+  - Can only upload to the generated key
+  - Patient ownership verified before URL generation
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

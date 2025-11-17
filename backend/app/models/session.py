@@ -43,17 +43,22 @@ class Session(Base):
     session_date: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False
     )
-    session_duration_minutes: Mapped[int] = mapped_column(Integer, nullable=False)
+    session_duration_minutes: Mapped[Optional[int]] = mapped_column(
+        Integer, nullable=True
+    )
 
     # Processing
     processing_status: Mapped[str] = mapped_column(
         String, nullable=False, default="pending"
     )
-    job_id: Mapped[str] = mapped_column(String, nullable=False)
+    job_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+
+    # S3 key for audio file (temporary)
+    s3_audio_key: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
     # Metadata
-    audio_metadata: Mapped[dict] = mapped_column(JSONB, nullable=False)
-    summary: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    audio_metadata: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
+    summary: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
 
     # Audit
     created_at: Mapped[datetime] = mapped_column(

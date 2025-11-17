@@ -1,5 +1,5 @@
 {
-  "include": ["backend"],
+  "include": ["backend", "worker"],
   "exclude": [
     "**/node_modules",
     "**/__pycache__",
@@ -11,6 +11,12 @@
       "root": "backend",
       "pythonVersion": "3.14",
       "pythonPlatform": "Darwin"
+    },
+    {
+      "root": "worker",
+      "pythonVersion": "3.14",
+      "pythonPlatform": "Darwin",
+      "venv": "worker/venv"
     }
   ]
 }

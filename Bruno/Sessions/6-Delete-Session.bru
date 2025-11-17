@@ -1,0 +1,162 @@
+meta {
+  name: 6. Delete Session
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{host}}/api/v1/sessions/{{session_id}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}
+
+docs {
+  # Delete Session (Soft Delete)
+  
+  Delete a therapy session (implements GDPR Article 17 - Right to Erasure).
+  
+  ## Authentication
+  
+  Requires valid Bearer token in Authorization header.
+  
+  ## Path Parameters
+  
+  - `session_id` (uuid, required): ID of the session to delete
+    - Must be a session that belongs to the authenticated therapist
+  
+  ## Success Response (200)
+  
+  ```json
+  {
+    "message": "Session deleted successfully"
+  }
+  ```
+  
+  ## What Happens
+  
+  ### 1. Soft Delete
+  - Sets `is_deleted = true` on the session record
+  - Sets `deleted_at` to current timestamp
+  - Record remains in database for audit trail
+  
+  ### 2. Audio File Deletion
+  - Deletes audio file from S3 (if still present)
+  - Ensures no audio data remains
+  
+  ### 3. Summary Data
+  - Summary is **marked as deleted** but retained
+  - Retained for 2 years for legal/compliance purposes
+  - After 2 years, can be permanently purged (manual process)
+  
+  ## GDPR Compliance
+  
+  This implements **Article 17 - Right to Erasure** (Right to be Forgotten):
+  
+  ### What is Deleted Immediately
+  - ✅ Audio file from S3 (if present)
+  - ✅ Session visibility in API (won't appear in list/get requests)
+  
+  ### What is Retained (for audit)
+  - 📝 Session record (soft-deleted, not visible)
+  - 📝 Summary data (marked deleted, not visible)
+  - 📝 Audit logs (who deleted, when)
+  
+  ### Retention Period
+  - **2 years** from deletion date
+  - Required for legal compliance (medical records, tax, disputes)
+  - After 2 years: eligible for permanent deletion (manual DBA operation)
+  
+  ## Full Data Erasure
+  
+  For complete patient data removal:
+  
+  1. **Delete all sessions**: Use this endpoint for each session
+  2. **Delete patient record**: Use DELETE /patients/{id}
+  3. **Request full erasure**: Contact DPO for complete removal after retention period
+  
+  ## Error Responses
+  
+  - **401 Unauthorized**: Invalid or missing token
+  - **404 Not Found**: Session not found or already deleted
+  
+  ## Use Cases
+  
+  ### 1. Patient Requests Deletion
+  ```bash
+  # Delete specific session
+  DELETE /api/v1/sessions/550e8400-e29b-41d4-a716-446655440000
+  ```
+  
+  ### 2. Therapist Error (Wrong Patient)
+  ```bash
+  # Delete immediately after creation
+  DELETE /api/v1/sessions/SESSION_ID
+  ```
+  
+  ### 3. Failed Processing (Unusable)
+  ```bash
+  # Delete failed sessions to clean up
+  # First list failed sessions
+  GET /api/v1/sessions?processing_status=failed
+  
+  # Then delete each
+  DELETE /api/v1/sessions/FAILED_SESSION_ID
+  ```
+  
+  ### 4. Bulk Deletion (Patient Leaving)
+  ```bash
+  # List all sessions for patient
+  GET /api/v1/sessions?patient_id=PATIENT_ID&page_size=100
+  
+  # Delete each session
+  for session_id in SESSION_IDS:
+      DELETE /api/v1/sessions/{session_id}
+  
+  # Then delete patient
+  DELETE /api/v1/patients/PATIENT_ID
+  ```
+  
+  ## Audit Trail
+  
+  All deletions are logged:
+  - Who deleted (therapist ID)
+  - When deleted (timestamp)
+  - What was deleted (session ID)
+  - IP address (for security)
+  
+  Check audit logs table for complete history.
+  
+  ## Cannot Undo
+  
+  ⚠️ **Warning**: Soft deletion cannot be undone through API.
+  
+  - Once deleted, session won't appear in any endpoints
+  - Summary data cannot be retrieved
+  - Audio file is permanently gone
+  - Database admin can restore if absolutely necessary (within 2 years)
+  
+  ## Best Practices
+  
+  1. **Confirm before delete**: Show confirmation dialog in UI
+  2. **Export first**: Offer to export/download before deletion
+  3. **Log reason**: Keep client-side log of why deleted (for your records)
+  4. **Batch carefully**: When bulk deleting, verify patient ID first
+  5. **Test thoroughly**: Use test data to verify deletion behavior
+  
+  ## Notes
+  
+  - Deleted sessions don't count toward quotas/limits
+  - Session IDs cannot be reused (UUID collision probability ~0)
+  - Soft delete is reversible by DBA (hard delete is not)
+  - For GDPR DSR (Data Subject Request), use dedicated export endpoint
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
