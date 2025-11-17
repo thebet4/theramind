@@ -58,13 +58,7 @@ export default function Header() {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden items-center gap-3 md:flex">
-            <Button
-              variant="default"
-              size="default"
-              className="bg-indigo-600 text-white hover:bg-indigo-700"
-            >
-              {t("getStarted")}
-            </Button>
+            <Button>{t("getStarted")}</Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -103,12 +97,7 @@ export default function Header() {
                 {t("about")}
               </a>
               <div className="flex flex-col gap-2 border-t border-gray-200 pt-4">
-                <Button
-                  size="default"
-                  className="w-full bg-indigo-600 text-white hover:bg-indigo-700"
-                >
-                  {t("getStarted")}
-                </Button>
+                <Button className="w-full">{t("getStarted")}</Button>
               </div>
             </div>
           </div>

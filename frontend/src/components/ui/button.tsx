@@ -4,27 +4,23 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-ring)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer",
   {
     variants: {
       variant: {
-        default:
-          "bg-[var(--color-primary)] text-[var(--color-primary-foreground)] shadow hover:bg-[var(--color-primary)]/90",
-        destructive:
-          "bg-[var(--color-destructive)] text-[var(--color-destructive-foreground)] shadow-sm hover:bg-[var(--color-destructive)]/90",
-        outline:
-          "border border-[var(--color-input)] bg-[var(--color-background)] shadow-sm hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-foreground)]",
-        secondary:
-          "bg-[var(--color-secondary)] text-[var(--color-secondary-foreground)] shadow-sm hover:bg-[var(--color-secondary)]/80",
-        ghost: "hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-foreground)]",
-        link: "text-[var(--color-primary)] underline-offset-4 hover:underline",
+        default: "bg-indigo-600 text-white shadow hover:bg-indigo-700",
+        destructive: "bg-red-600 text-white shadow hover:bg-red-700",
+        outline: "border border-indigo-600 bg-white text-indigo-600 shadow hover:bg-indigo-50",
+        secondary: "bg-indigo-100 text-indigo-900 shadow hover:bg-indigo-200",
+        ghost: "text-indigo-600 hover:bg-indigo-100 hover:text-indigo-700",
+        link: "text-indigo-600 underline-offset-4 hover:underline hover:text-indigo-700",
       },
       size: {
-        default: "h-9 px-4 py-2",
+        default: "h-10 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-11 rounded-md px-8",
+        lg: "h-12 rounded-md px-8",
         xl: "h-14 rounded-lg px-10 text-base",
-        icon: "h-9 w-9",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {

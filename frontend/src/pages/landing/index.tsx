@@ -84,12 +84,7 @@ export default function LandingPage() {
               <p className="mb-8 max-w-xl text-lg text-gray-600">{t("hero.subtitle")}</p>
 
               <div className="mb-12 flex flex-col gap-4 sm:flex-row">
-                <Button
-                  size="lg"
-                  className="h-12 bg-indigo-600 px-8 text-white hover:bg-indigo-700"
-                >
-                  {t("hero.cta")}
-                </Button>
+                <Button size="lg">{t("hero.cta")}</Button>
               </div>
 
               {/* Feature Badges */}
@@ -356,7 +351,8 @@ export default function LandingPage() {
             <p className="mb-8 text-lg text-white/90">{t("cta.subtitle")}</p>
             <Button
               size="xl"
-              className="mb-4 h-14 bg-white px-10 text-indigo-600 hover:bg-gray-100"
+              variant="outline"
+              className="mb-4 bg-white text-indigo-600 hover:bg-gray-100"
             >
               {t("cta.button")}
               <ArrowRight className="ml-2" />
