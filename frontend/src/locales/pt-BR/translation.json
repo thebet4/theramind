@@ -4,7 +4,9 @@
       "features": "Recursos",
       "about": "Sobre",
       "howItWorks": "Como Funciona",
-      "getStarted": "Começar"
+      "getStarted": "Começar",
+      "openMenu": "Abrir menu",
+      "closeMenu": "Fechar menu"
     },
     "hero": {
       "title": "Empoderando Terapeutas com",
@@ -22,10 +24,14 @@
         "subtitle": "Sua sessão está sendo gravada com segurança",
         "duration": "Duração da Gravação",
         "encrypted": "Criptografia ponta a ponta",
-        "quality": "Áudio em Alta Definição"
+        "quality": "Áudio em Alta Definição",
+        "deleteButton": "Excluir gravação",
+        "stopButton": "Parar gravação",
+        "completeButton": "Concluir gravação"
       }
     },
     "features": {
+      "sectionTitle": "Recursos Poderosos para Terapia Moderna",
       "feature1": {
         "title": "Disponibilidade 24/7",
         "description": "Acesse suporte sempre que precisar. Sem agendamentos, sem salas de espera, apenas ajuda imediata quando mais importa."

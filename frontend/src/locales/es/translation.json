@@ -4,7 +4,9 @@
       "features": "Características",
       "about": "Acerca de",
       "howItWorks": "Cómo Funciona",
-      "getStarted": "Comenzar"
+      "getStarted": "Comenzar",
+      "openMenu": "Abrir menú",
+      "closeMenu": "Cerrar menú"
     },
     "hero": {
       "title": "Empoderando a Terapeutas con",
@@ -22,10 +24,14 @@
         "subtitle": "Su sesión se está grabando de forma segura",
         "duration": "Duración de la Grabación",
         "encrypted": "Cifrado de extremo a extremo",
-        "quality": "Calidad de Audio HD"
+        "quality": "Calidad de Audio HD",
+        "deleteButton": "Eliminar grabación",
+        "stopButton": "Detener grabación",
+        "completeButton": "Completar grabación"
       }
     },
     "features": {
+      "sectionTitle": "Características Poderosas para Terapia Moderna",
       "feature1": {
         "title": "Disponibilidad 24/7",
         "description": "Acceda a soporte cuando lo necesite. Sin citas, sin salas de espera, solo ayuda inmediata cuando más importa."

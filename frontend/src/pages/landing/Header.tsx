@@ -19,7 +19,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white">
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <a href="#hero" onClick={(e) => handleSmoothScroll(e, "#hero")}>
@@ -36,21 +36,21 @@ export default function Header() {
             <a
               href="#features"
               onClick={(e) => handleSmoothScroll(e, "#features")}
-              className="text-sm font-medium text-gray-700 transition-colors hover:text-gray-900"
+              className="text-sm font-medium text-gray-800 transition-colors hover:text-gray-900"
             >
               {t("features")}
             </a>
             <a
               href="#how-it-works"
               onClick={(e) => handleSmoothScroll(e, "#how-it-works")}
-              className="text-sm font-medium text-gray-700 transition-colors hover:text-gray-900"
+              className="text-sm font-medium text-gray-800 transition-colors hover:text-gray-900"
             >
               {t("howItWorks")}
             </a>
             <a
               href="#about"
               onClick={(e) => handleSmoothScroll(e, "#about")}
-              className="text-sm font-medium text-gray-700 transition-colors hover:text-gray-900"
+              className="text-sm font-medium text-gray-800 transition-colors hover:text-gray-900"
             >
               {t("about")}
             </a>
@@ -62,13 +62,15 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <Button
+            variant="ghost"
             className="rounded-md p-2 transition-colors hover:bg-gray-100 md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={mobileMenuOpen ? t("closeMenu") : t("openMenu")}
+            aria-expanded={mobileMenuOpen}
           >
-            <Menu className="h-6 w-6" />
-          </button>
+            <Menu className="h-6 w-6" aria-hidden="true" />
+          </Button>
         </div>
 
         {/* Mobile Menu */}
@@ -78,21 +80,21 @@ export default function Header() {
               <a
                 href="#features"
                 onClick={(e) => handleSmoothScroll(e, "#features")}
-                className="py-2 text-sm font-medium text-gray-700 transition-colors hover:text-gray-900"
+                className="py-2 text-sm font-medium text-gray-800 transition-colors hover:text-gray-900"
               >
                 {t("features")}
               </a>
               <a
                 href="#how-it-works"
                 onClick={(e) => handleSmoothScroll(e, "#how-it-works")}
-                className="py-2 text-sm font-medium text-gray-700 transition-colors hover:text-gray-900"
+                className="py-2 text-sm font-medium text-gray-800 transition-colors hover:text-gray-900"
               >
                 {t("howItWorks")}
               </a>
               <a
                 href="#about"
                 onClick={(e) => handleSmoothScroll(e, "#about")}
-                className="py-2 text-sm font-medium text-gray-700 transition-colors hover:text-gray-900"
+                className="py-2 text-sm font-medium text-gray-800 transition-colors hover:text-gray-900"
               >
                 {t("about")}
               </a>

@@ -4,7 +4,9 @@
       "features": "Features",
       "about": "About",
       "howItWorks": "How It Works",
-      "getStarted": "Get Started"
+      "getStarted": "Get Started",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
     },
     "hero": {
       "title": "Empowering Therapists with",
@@ -22,10 +24,14 @@
         "subtitle": "Your session is being securely recorded",
         "duration": "Recording Duration",
         "encrypted": "End-to-end encrypted",
-        "quality": "HD Audio Quality"
+        "quality": "HD Audio Quality",
+        "deleteButton": "Delete recording",
+        "stopButton": "Stop recording",
+        "completeButton": "Complete recording"
       }
     },
     "features": {
+      "sectionTitle": "Powerful Features for Modern Therapy",
       "feature1": {
         "title": "24/7 Availability",
         "description": "Access support whenever you need it. No appointments, no waiting rooms, just immediate help when it matters most."

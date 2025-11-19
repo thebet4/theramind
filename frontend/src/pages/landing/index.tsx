@@ -67,8 +67,9 @@ export default function LandingPage() {
     <div className="min-h-screen">
       <Header />
 
-      {/* Hero Section */}
-      <section
+      <main>
+        {/* Hero Section */}
+        <section
         id="hero"
         className="relative overflow-hidden bg-gradient-to-b from-indigo-100 to-gray-50 pt-24 pb-20"
       >
@@ -81,7 +82,7 @@ export default function LandingPage() {
                 <span className="text-indigo-600">{t("hero.titleHighlight")}</span>{" "}
               </h1>
 
-              <p className="mb-8 max-w-xl text-lg text-gray-600">{t("hero.subtitle")}</p>
+              <p className="mb-8 max-w-xl text-lg text-gray-700">{t("hero.subtitle")}</p>
 
               <div className="mb-12 flex flex-col gap-4 sm:flex-row">
                 <Button size="lg">{t("hero.cta")}</Button>
@@ -127,10 +128,10 @@ export default function LandingPage() {
                       {t("hero.recorder.status")}
                     </span>
                   </div>
-                  <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                  <h2 className="mb-2 text-xl font-semibold text-gray-900">
                     {t("hero.recorder.title")}
-                  </h3>
-                  <p className="text-sm text-gray-600">{t("hero.recorder.subtitle")}</p>
+                  </h2>
+              <p className="text-sm text-gray-700">{t("hero.recorder.subtitle")}</p>
                 </div>
 
                 {/* Waveform Visualization */}
@@ -174,17 +175,21 @@ export default function LandingPage() {
                 {/* Timer */}
                 <div className="mb-8 text-center">
                   <div className="mb-1 text-4xl font-bold text-gray-900">12:34</div>
-                  <div className="text-sm text-gray-500">{t("hero.recorder.duration")}</div>
+                  <div className="text-sm text-gray-700">{t("hero.recorder.duration")}</div>
                 </div>
 
                 {/* Control Buttons */}
                 <div className="mb-6 flex items-center justify-center gap-4">
-                  <button className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200">
+                  <button 
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200"
+                    aria-label={t("hero.recorder.deleteButton")}
+                  >
                     <svg
-                      className="h-5 w-5 text-gray-600"
+                      className="h-5 w-5 text-gray-700"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"
@@ -195,16 +200,23 @@ export default function LandingPage() {
                     </svg>
                   </button>
 
-                  <button className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 shadow-lg transition-all hover:from-indigo-700 hover:to-purple-700">
-                    <div className="h-6 w-6 rounded bg-white"></div>
+                  <button 
+                    className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 shadow-lg transition-all hover:from-indigo-700 hover:to-purple-700"
+                    aria-label={t("hero.recorder.stopButton")}
+                  >
+                    <div className="h-6 w-6 rounded bg-white" aria-hidden="true"></div>
                   </button>
 
-                  <button className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200">
+                  <button 
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200"
+                    aria-label={t("hero.recorder.completeButton")}
+                  >
                     <svg
-                      className="h-5 w-5 text-gray-600"
+                      className="h-5 w-5 text-gray-700"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"
@@ -218,11 +230,11 @@ export default function LandingPage() {
 
                 {/* Security Info */}
                 <div className="flex items-center justify-center gap-6 border-t border-gray-100 pt-6">
-                  <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <div className="flex items-center gap-1.5 text-xs text-gray-700">
                     <Shield className="h-3.5 w-3.5" />
                     <span>{t("hero.recorder.encrypted")}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <div className="flex items-center gap-1.5 text-xs text-gray-700">
                     <Mic className="h-3.5 w-3.5" />
                     <span>{t("hero.recorder.quality")}</span>
                   </div>
@@ -236,6 +248,11 @@ export default function LandingPage() {
       {/* Features Section */}
       <section id="features" className="scroll-mt-16 bg-gray-50 py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-16 max-w-3xl text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
+              {t("features.sectionTitle")}
+            </h2>
+          </div>
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
@@ -279,7 +296,7 @@ export default function LandingPage() {
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-semibold text-gray-900">{feature.title}</h3>
-                    <p className="text-sm leading-relaxed text-gray-600">{feature.description}</p>
+                    <p className="text-sm leading-relaxed text-gray-700">{feature.description}</p>
                   </div>
                 </div>
               </Card>
@@ -321,12 +338,12 @@ export default function LandingPage() {
                 },
               ].map((step, index) => (
                 <div key={index} className="relative">
-                  <div className="mb-4 text-6xl font-bold text-indigo-100">{step.step}</div>
+                  <div className="mb-4 text-6xl font-bold text-indigo-500" aria-hidden="true">{step.step}</div>
                   <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600">
-                    <step.icon className="h-8 w-8 text-white" />
+                    <step.icon className="h-8 w-8 text-white" aria-hidden="true" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-gray-900">{step.title}</h3>
-                  <p className="text-gray-600">{step.description}</p>
+                  <p className="text-gray-700">{step.description}</p>
 
                   {index < 2 && (
                     <div className="absolute top-20 -right-6 hidden h-8 w-8 md:block">
@@ -360,6 +377,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>
